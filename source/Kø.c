@@ -37,6 +37,7 @@ int finn_neste_stopp(Kø *aKø, int sist_etasje, int kjøre_retning) {
                 }
             }
         } 
+
         if(kjøre_retning<0){
             if (((aKø->liste[i].retning == kjøre_retning) || (aKø->liste[i].retning == 0)) && (aKø->liste[i].etasje<sist_etasje)){
                 avstand = sist_etasje - aKø->liste[i].etasje;
@@ -49,11 +50,7 @@ int finn_neste_stopp(Kø *aKø, int sist_etasje, int kjøre_retning) {
         }
     }
 
-
-
     return neste_stopp;
-    
-    
 }
 
 // tømmer hele køen
@@ -79,10 +76,6 @@ int etasje_finnes_i_kø(Kø *aKø, Etasje aEtasje) {
 void legg_til_etasje_i_kø(Kø *aKø, Etasje aEtasje){
 
     // filter for at ikke samme etasje legges inn flere ganger
-    // loope gjennDisconnectedom kø
-    // hvis etasje ligger i kø, ikke legg til i kø
-    // hvis ikke, legg til i kø
-    
     if (etasje_finnes_i_kø(aKø, aEtasje)) {
         return;
     } else {
@@ -101,17 +94,20 @@ void fjern_etasjer_fra_kø(Kø *aKø, int aEtasje){
     elevio_buttonLamp(aEtasje, BUTTON_HALL_DOWN, 0);
     elevio_buttonLamp(aEtasje, BUTTON_HALL_UP, 0);
 
-    Etasje* ny_liste = (Etasje*)malloc(aKø->lengde * sizeof(Etasje)); //lager plass til en ny liste. Her vil vi legge alle etasjene som ikke er aEtasje
+    //lager plass til en ny liste. Her vil vi legge alle etasjene som ikke er aEtasje
+    Etasje* ny_liste = (Etasje*)malloc(aKø->lengde * sizeof(Etasje));       
     int ny_lengde = 0;
+
+    //går gjennom listen og legger de etasjene som IKKE er i aEtasje inn i den nye listen
     for (int i = 0; i < aKø->lengde; i++){
-        if (aKø->liste[i].etasje != aEtasje){ //går gjennom listen og legger de etasjene som IKKE er i aEtasje inn i den nye listen
+        if (aKø->liste[i].etasje != aEtasje){                               
             ny_liste[ny_lengde] = aKø->liste[i];
             ny_lengde++;
 
         }
     }
-    free(aKø->liste); //frigjør det gamle minnet vi ikke lenger har behov for
-    aKø->liste = (Etasje*)realloc(ny_liste, ny_lengde * sizeof(Etasje)); //reallokerer minnet slik at aKø->liste peker til et nytt sted (sannsynligvis samme sted som ny_liste)
+    free(aKø->liste);                                                           //frigjør det gamle minnet vi ikke lenger har behov for
+    aKø->liste = (Etasje*)realloc(ny_liste, ny_lengde * sizeof(Etasje));        //reallokerer minnet slik at aKø->liste peker til et nytt sted (sannsynligvis samme sted som ny_liste)
     aKø->lengde = ny_lengde;
 };
 

@@ -8,11 +8,13 @@ void kjører_til_neste_stopp(int etasje, int neste_stopp, int etasje_tilstand) {
         retning=0;
     }
 
-    if (neste_stopp == etasje) {
+    // stå stille dersom man er i etasjen
+    if (neste_stopp == etasje && etasje_tilstand != -1) {
         elevio_motorDirection(DIRN_STOP);
         retning=0;
     }
 
+    // If test for å fikse bug der programmet tror du er i en etasje etter å ha trykket på stoppknapp mellom etasjer
     if (neste_stopp == etasje && etasje_tilstand == -1) {
         // legg inn logikk for å kjøre riktig vei
         elevio_motorDirection(DIRN_UP);
@@ -30,7 +32,7 @@ void kjører_til_neste_stopp(int etasje, int neste_stopp, int etasje_tilstand) {
     }
 }
 
-void sett_lys(Kø *aKø, int etasje, int dør_åpen){
+void sett_lys(Kø *aKø, int etasje){
     for(int i=0; i<aKø->lengde; i++){
         // HEISPANEL_LYS
         if(aKø->liste[i].etasje == 0 && aKø->liste[i].retning == 0){
@@ -73,6 +75,7 @@ void sett_lys(Kø *aKø, int etasje, int dør_åpen){
     // kalles i Dør.c under start_nedtelling()
 };
 
+// skrur av alle etasjelys og obstruksjonslys
 void skru_av_alle_lys() {
 
     elevio_buttonLamp(1, BUTTON_HALL_DOWN, 0);
@@ -91,10 +94,18 @@ void skru_av_alle_lys() {
     elevio_doorOpenLamp(0);
 }
 
+
  //Kjører til tredje etasje og døren er lukket 
 void go_to_default(Kø aKø){
     etasje_tilstand = elevio_floorSensor();
     neste_stopp = 2;
+
+    // FAT krav Oppstart 3
+    if (etasje_tilstand > 3) {
+        etasje_tilstand = 3;
+    } else if (etasje_tilstand < 0) {
+        etasje_tilstand = 0;
+    }
 
     while(etasje_tilstand!=2){
         if (etasje_tilstand != -1) {

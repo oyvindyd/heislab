@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include "Kø.h"
 #include "heispanel.h"
+#include "Heiskontroller.h"
 
-extern volatile int dør_åpen;
 
-
-void start_nedtelling(Kø *aKø, int* p_stoppknapp);
+void start_nedtelling(Kø *aKø);
