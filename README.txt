@@ -8,5 +8,6 @@
 
 TODO: 
 - VIKTIG: når man holder inne stoppknappen og trykker på en etasje i panelet kjører den dit selv om man holder inne stoppknappen
+- skal ikke kunne åpne døren mellom etasjer
 
 
