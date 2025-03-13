@@ -1,6 +1,5 @@
 #include "heispanel.h"
 
-
 // lager alle etasjer {e, etasjenummer, retning}: e-etasje, 0/1/2/3-etasjenummer, o/n/b-opp/ned/blank
 Etasje e0b = {0, 0};
 Etasje e1b = {1, 0};
@@ -36,7 +35,3 @@ void heispanel_etasjetrykk(Kø *aKøPtr) {
     //printf("Lengde %d\n", aKøPtr->lengde);
 };
 
-
-void endre_tilstand_stoppmodus(Heistilstand *tilstand){ //endre tilstand til heisen hvis elevio_stopButton() er sann
-      
-};

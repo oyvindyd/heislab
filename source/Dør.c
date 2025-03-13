@@ -1,18 +1,17 @@
 #include "Dør.h"
 
-
-// starter 3 sekunder nedtelling. int stoppmodus sier om funksjonen kalles pga. stoppknapp
+// starter 3 sekunder nedtelling. int stoppmodus sier om funksjonen kalles pga.
+// stoppknapp
 void start_nedtelling(Kø *aKø) {
-  int i=0;                                              // hjelpevariabel for hakkete heis
-  time_t start_tid = time(NULL);                        // start tid    
+  int i = 0;                     // hjelpevariabel for hakkete heis
+  time_t start_tid = time(NULL); // start tid
 
   // while løkke på 3 sekunder
-  while (time(NULL) - start_tid < 3) {   
+  while (time(NULL) - start_tid < 3) {
     i++;
-    printf("Elevio_stopButton start_nedtelling i Dør.c: %d\n", elevio_stopButton());
-    
-    if (elevio_stopButton()) { 
-      //printf("Stoppknapp trykket i Dør.c\n");
+
+    if (elevio_stopButton()) {
+      // printf("Stoppknapp trykket i Dør.c\n");
       elevio_motorDirection(DIRN_STOP);
 
       // skrur på lyset så lenge stoppknappen er inne
@@ -20,34 +19,26 @@ void start_nedtelling(Kø *aKø) {
       tøm_kø(aKø);
 
       // skrur av alle lysene utenom dør åpen fordi man er i en etasje
-      if (etasje_tilstand != -1) {
+      if (etasje_tilstand != -1)
         skru_av_etasjelys();
-      } else {
+      else
         skru_av_alle_lys();
-      }
-     
+
       start_nedtelling(aKø);
     } else {
-      elevio_stopLamp(0);                                           // skrur av stopplyset som skrus på i main
+      elevio_stopLamp(0); // skrur av stopplyset som skrus på i main
 
       heispanel_etasjetrykk(aKø);
-      if (etasje_tilstand != -1) {elevio_doorOpenLamp(1);}          // døra skal åpnes så lenge den ikke er mellom etasjer når stoppknappen trykkes
+      if (etasje_tilstand != -1) {
+        elevio_doorOpenLamp(1);
+      } // døra skal åpnes så lenge den ikke er mellom etasjer når stoppknappen
+        // trykkes
       sett_lys(aKø, sist_etasje);
-      
-      //printf("Dør åpen/nedtelling:\n");
 
-      // for at heisen ikke skal hakke nedover under obstruksjon
-      if(i%10 == 0){
-        if (elevio_obstruction()) { 
-          start_nedtelling(aKø);
-        }
-      }
-
+      if (elevio_obstruction() && etasje_tilstand != -1)
+        start_nedtelling(aKø);
     }
-
-    
   };
 
-  elevio_doorOpenLamp(0);                             // skrur av lyset etter 3 sekunder
+  elevio_doorOpenLamp(0); // skrur av lyset etter 3 sekunder
 }
-
