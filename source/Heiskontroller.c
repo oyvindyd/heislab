@@ -73,6 +73,8 @@ void sett_lys(Kø *aKø, int etasje){
 
     // OBSTRUKSJONSLYS
     // kalles i Dør.c under start_nedtelling()
+    // STOPPLYS 
+    // settes i main.cog Dør.c
 };
 
 // skrur av alle etasjelys og obstruksjonslys
@@ -92,6 +94,23 @@ void skru_av_alle_lys() {
     elevio_buttonLamp(0, BUTTON_CAB, 0);
 
     elevio_doorOpenLamp(0);
+}
+
+
+// skrur av alle heispanel- og etasjepanellys
+void skru_av_etasjelys() {
+    elevio_buttonLamp(1, BUTTON_HALL_DOWN, 0);
+    elevio_buttonLamp(2, BUTTON_HALL_DOWN, 0);
+    elevio_buttonLamp(3, BUTTON_HALL_DOWN, 0);
+
+    elevio_buttonLamp(2, BUTTON_HALL_UP, 0);
+    elevio_buttonLamp(1, BUTTON_HALL_UP, 0);
+    elevio_buttonLamp(0, BUTTON_HALL_UP, 0);
+    
+    elevio_buttonLamp(3, BUTTON_CAB, 0);
+    elevio_buttonLamp(2, BUTTON_CAB, 0);
+    elevio_buttonLamp(1, BUTTON_CAB, 0);
+    elevio_buttonLamp(0, BUTTON_CAB, 0);
 }
 
 

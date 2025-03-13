@@ -6,38 +6,46 @@ void start_nedtelling(Kø *aKø) {
   int i=0;                                              // hjelpevariabel for hakkete heis
   time_t start_tid = time(NULL);                        // start tid    
 
-
   // while løkke på 3 sekunder
-  while (time(NULL) - start_tid < 3) {        
-    heispanel_etasjetrykk(aKø);
-    if (etasje_tilstand != -1) {elevio_doorOpenLamp(1);}          // døra skal åpnes så lenge den ikke er mellom etasjer når stoppknappen trykkes
-    sett_lys(aKø, sist_etasje);
-    
+  while (time(NULL) - start_tid < 3) {   
     i++;
-    if (i%10 == 0) {
-      printf("Dør åpen/nedtelling:\n");
-    }
-
-    // for at heisen ikke skal hakke nedover under obstruksjon
-    if(i%10 == 0){
-      if (elevio_obstruction()) { 
-        start_nedtelling(aKø);
-      }
-    }
-
+    printf("Elevio_stopButton start_nedtelling i Dør.c: %d\n", elevio_stopButton());
+    
     if (elevio_stopButton()) { 
-      printf("Stoppknapp trykket\n");
+      //printf("Stoppknapp trykket i Dør.c\n");
       elevio_motorDirection(DIRN_STOP);
 
       // skrur på lyset så lenge stoppknappen er inne
       elevio_stopLamp(1);
       tøm_kø(aKø);
-      skru_av_alle_lys();
+
+      // skrur av alle lysene utenom dør åpen fordi man er i en etasje
+      if (etasje_tilstand != -1) {
+        skru_av_etasjelys();
+      } else {
+        skru_av_alle_lys();
+      }
+     
       start_nedtelling(aKø);
-      elevio_stopLamp(0);
     } else {
-      elevio_stopLamp(0);                             // skrur av stopplyset som skrus på i main
+      elevio_stopLamp(0);                                           // skrur av stopplyset som skrus på i main
+
+      heispanel_etasjetrykk(aKø);
+      if (etasje_tilstand != -1) {elevio_doorOpenLamp(1);}          // døra skal åpnes så lenge den ikke er mellom etasjer når stoppknappen trykkes
+      sett_lys(aKø, sist_etasje);
+      
+      //printf("Dør åpen/nedtelling:\n");
+
+      // for at heisen ikke skal hakke nedover under obstruksjon
+      if(i%10 == 0){
+        if (elevio_obstruction()) { 
+          start_nedtelling(aKø);
+        }
+      }
+
     }
+
+    
   };
 
   elevio_doorOpenLamp(0);                             // skrur av lyset etter 3 sekunder
