@@ -8,5 +8,7 @@
 
 TODO: 
 - VIKTIG: når man holder inne stoppknappen og trykker på en etasje i panelet kjører den dit selv om man holder inne stoppknappen
+- Obstruksjonsbryteren skal ikke påvirke systemet når døra ikke er åpen og Obstruksjonsknappen skal ikke kunne åpne døren mellom etasjer
+
 
 
